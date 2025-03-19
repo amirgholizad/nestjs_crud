@@ -1,6 +1,6 @@
 import { Controller, Get, Put, Body, Post, Delete } from '@nestjs/common';
 import { Param, ParseIntPipe } from '@nestjs/common';
-import { Cart, AddToCartDTO } from '../dto';
+import { AddToCartDTO } from '../dto';
 import { CartService } from './cart.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
@@ -31,7 +31,7 @@ export class CartController {
   }
 
   @Post()
-  @ApiResponse({ status: 200, description: 'Product added to cart' })
+  @ApiResponse({ status: 201, description: 'Product added to cart' })
   @ApiResponse({ status: 500, description: 'Internal server error' })
   @ApiResponse({ status: 400, description: 'Bad request' })
   async addProductToCart(@Body() data: AddToCartDTO) {

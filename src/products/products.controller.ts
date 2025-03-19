@@ -1,7 +1,7 @@
 import { ProductsService } from './products.service';
 import { Controller, Get, Put, Body, Post, Delete } from '@nestjs/common';
 import { Param, ParseIntPipe } from '@nestjs/common';
-import { Product, CreateProductDTO } from '../dto';
+import { CreateProductDTO } from '../dto';
 import { ApiBody, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { NotFoundException, BadRequestException } from '@nestjs/common';
 
@@ -50,7 +50,7 @@ export class ProductsController {
   @ApiResponse({ status: 500, description: 'Internal server error' })
   async addNewProduct(@Body() data: CreateProductDTO) {
     const res = await this.productsService.addProduct(data);
-    if (res.length > 0 && res[0] > 0) {
+    if (typeof res === 'number' || (res.length > 0 && res[0] > 0)) {
       return { message: 'Product added' };
     } else {
       throw new BadRequestException('Bad request');

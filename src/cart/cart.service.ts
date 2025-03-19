@@ -1,4 +1,4 @@
-import { Body, Injectable, Param } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Cart } from '../dto';
 import { Knex } from 'knex';
 import { InjectConnection } from 'nest-knexjs';

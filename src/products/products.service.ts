@@ -12,4 +12,9 @@ export class ProductsService {
     const products = await this.knex.table('products');
     return { products };
   }
+
+  async getProductById(id: number) {
+    const product = await this.knex.table('products').where({ id });
+    return { product };
+  }
 }

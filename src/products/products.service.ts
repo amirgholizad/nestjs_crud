@@ -21,4 +21,8 @@ export class ProductsService {
   async addProduct(data: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) {
     return this.knex('products').insert(data).onConflict('name').merge();
   }
+
+  async deleteProduct(id: number) {
+    return this.knex('products').where({ id }).delete();
+  }
 }

@@ -1,5 +1,5 @@
 import { ProductsService } from './products.service';
-import { Controller, Get, Put, Body, Post } from '@nestjs/common';
+import { Controller, Get, Put, Body, Post, Delete } from '@nestjs/common';
 import { Param, ParseIntPipe } from '@nestjs/common';
 import { Product } from '../dt';
 
@@ -17,6 +17,11 @@ export class ProductsController {
   @Get(':id')
   async getProduct(@Param('id', ParseIntPipe) id: number) {
     return await this.productsService.getProductById(id);
+  }
+
+  @Delete(':id')
+  async deleteProduct(@Param('id', ParseIntPipe) id: number) {
+    return await this.productsService.deleteProduct(id);
   }
 
   @Post()

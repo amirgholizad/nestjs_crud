@@ -2,14 +2,14 @@ version: '3.8'
 
 services:
   mysql:
-    build: .
+    image: mysql:latest
     container_name: mysql-container
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootroot
       MYSQL_DATABASE: final_commerce
     ports:
-      - '3307:3307'
+      - '3307:3306'
     volumes:
       - mysql_data:/var/lib/mysql
 

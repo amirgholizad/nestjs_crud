@@ -26,7 +26,7 @@ const config: { [key: string]: Knex.Config } = {
       user: 'root',
       password: 'rootroot',
       host: 'mysql',
-      port: 3307,
+      port: 3306,
       ssl: false,
     },
     migrations: {

@@ -5,7 +5,7 @@ import { InjectConnection } from 'nest-knexjs';
 @Injectable()
 export class AppService {
   getHello(): string {
-    return 'Hello From Amir!!!';
+    return 'Hello From Amir!!! Checkout the API Documentation at "/api"';
   }
 }
 

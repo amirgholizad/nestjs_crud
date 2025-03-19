@@ -1,4 +1,4 @@
-import { Body, Injectable, Param } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Cart } from '../dto';
 import { Knex } from 'knex';
 import { InjectConnection } from 'nest-knexjs';
@@ -17,7 +17,6 @@ export class CartService {
   }
 
   async addToCart(data: Omit<Cart, 'id' | 'createdAt' | 'updatedAt'>) {
-    console.log(data);
     const cart = await this.knex
       .table('cart')
       .where({ product_id: data.product_id });
@@ -29,13 +28,21 @@ export class CartService {
     return this.knex('cart').insert(data);
   }
 
-  async reduceFromCart(data: Omit<Cart, 'id' | 'createdAt' | 'updatedAt'>) {
-    return this.knex('cart')
-      .where({ product_id: data.product_id })
-      .decrement('quantity', data.quantity);
+  async reduceFromCart(product_id: number) {
+    const cartDetail = await this.knex('cart').where({
+      product_id: product_id,
+    });
+
+    if (cartDetail[0].quantity === 1) {
+      return this.knex('cart').where({ product_id: product_id }).delete();
+    } else {
+      return this.knex('cart')
+        .where({ product_id: product_id })
+        .decrement('quantity', 1);
+    }
   }
 
-  async removeFromCart(data: Omit<Cart, 'id' | 'createdAt' | 'updatedAt'>) {
-    return this.knex('cart').where({ product_id: data.product_id }).delete();
+  async removeFromCart(product_id: number) {
+    return this.knex('cart').where({ product_id: product_id }).delete();
   }
 }

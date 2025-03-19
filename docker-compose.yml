@@ -9,7 +9,7 @@ services:
       MYSQL_ROOT_PASSWORD: rootroot
       MYSQL_DATABASE: final_commerce
     ports:
-      - '3307:3306'
+      - '3307:3307'
     volumes:
       - mysql_data:/var/lib/mysql
 

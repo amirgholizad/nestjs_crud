@@ -25,7 +25,7 @@ const config: { [key: string]: Knex.Config } = {
       database: 'final_commerce',
       user: 'root',
       password: 'rootroot',
-      host: 'localhost',
+      host: 'mysql',
       port: 3307,
       ssl: false,
     },

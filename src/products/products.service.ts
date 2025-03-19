@@ -1,5 +1,5 @@
 import { Body, Injectable, Param } from '@nestjs/common';
-import { Product } from '../dt';
+import { Product } from '../dto';
 import { Knex } from 'knex';
 import { InjectConnection } from 'nest-knexjs';
 

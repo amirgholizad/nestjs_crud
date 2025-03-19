@@ -1,7 +1,7 @@
 import { ProductsService } from './products.service';
 import { Controller, Get, Put, Body, Post, Delete } from '@nestjs/common';
 import { Param, ParseIntPipe } from '@nestjs/common';
-import { Product } from '../dt';
+import { Product } from '../dto';
 
 type CreateProductDTO = Omit<Product, 'id' | 'createdAt' | 'updatedAt'>;
 

@@ -1,5 +1,4 @@
 import { Body, Injectable, Param } from '@nestjs/common';
-import { DatabaseModule as db } from 'src/database/database.module';
 import { Product } from '../dt';
 import { Knex } from 'knex';
 import { InjectConnection } from 'nest-knexjs';

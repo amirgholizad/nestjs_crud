@@ -28,4 +28,12 @@ export class ProductsController {
   async upsertProduct(@Body() data: CreateProductDTO) {
     return this.productsService.addProduct(data);
   }
+
+  @Put(':id')
+  async updateProduct(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() data: CreateProductDTO,
+  ) {
+    return this.productsService.updateProduct(id, data);
+  }
 }

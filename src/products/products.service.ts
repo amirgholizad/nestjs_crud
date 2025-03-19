@@ -1,5 +1,5 @@
 import { Body, Injectable, Param } from '@nestjs/common';
-import { Product } from '../dto';
+import { CreateProductDTO, Product } from '../dto';
 import { Knex } from 'knex';
 import { InjectConnection } from 'nest-knexjs';
 
@@ -17,7 +17,7 @@ export class ProductsService {
     return { product };
   }
 
-  async addProduct(data: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) {
+  async addProduct(data: CreateProductDTO) {
     return this.knex('products').insert(data).onConflict('name').merge();
   }
 
@@ -25,10 +25,7 @@ export class ProductsService {
     return this.knex('products').where({ id }).delete();
   }
 
-  async updateProduct(
-    id: number,
-    data: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>,
-  ) {
+  async updateProduct(id: number, data: CreateProductDTO) {
     return this.knex('products').where({ id }).update(data);
   }
 }

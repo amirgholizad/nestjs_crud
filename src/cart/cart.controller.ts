@@ -1,10 +1,10 @@
 import { Controller, Get, Put, Body, Post, Delete } from '@nestjs/common';
 import { Param, ParseIntPipe } from '@nestjs/common';
-import { Cart } from '../dto';
+import { Cart, AddToCartDTO } from '../dto';
 import { CartService } from './cart.service';
+import { ApiTags } from '@nestjs/swagger';
 
-type AddToCartDTO = Omit<Cart, 'id' | 'createdAt' | 'updatedAt'>;
-
+@ApiTags('Shopping Cart')
 @Controller('cart')
 export class CartController {
   constructor(private readonly cartService: CartService) {}

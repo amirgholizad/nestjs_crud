@@ -7,3 +7,11 @@ export type Product = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type Cart = {
+  id: number;
+  product_id: number;
+  quantity: number;
+  createdAt: string;
+  updatedAt: string;
+};

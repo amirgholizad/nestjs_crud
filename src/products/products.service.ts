@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Body, Injectable, Param } from '@nestjs/common';
 import { DatabaseModule as db } from 'src/database/database.module';
 import { Product } from '../dt';
 import { Knex } from 'knex';
@@ -16,5 +16,9 @@ export class ProductsService {
   async getProductById(id: number) {
     const product = await this.knex.table('products').where({ id });
     return { product };
+  }
+
+  async addProduct(data: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) {
+    return this.knex('products').insert(data).onConflict('name').merge();
   }
 }

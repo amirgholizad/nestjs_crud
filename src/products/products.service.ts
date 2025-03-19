@@ -25,7 +25,10 @@ export class ProductsService {
     return this.knex('products').where({ id }).delete();
   }
 
-  async updateProduct(id: number, data: CreateProductDTO) {
+  async updateProduct(
+    id: number,
+    data: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>,
+  ) {
     return this.knex('products').where({ id }).update(data);
   }
 }

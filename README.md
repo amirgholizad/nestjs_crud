@@ -17,20 +17,20 @@ This is a simple CRUD application for managing products and a shopping cart usin
 
 To run the app, follow these steps:
 
-### 1. Switch to the Production Branch
-
-Ensure you're on the production branch:
-
-```bash
-git checkout production
-```
-
-### 2. Download the Project
+### 1. Download the Project
 
 Clone the repository to your local machine:
 
 ```bash
 git clone https://github.com/amirgholizad/nestjs_crud.git
+```
+
+### 2. Switch to the Production Branch
+
+Ensure you're on the production branch:
+
+```bash
+git checkout production
 ```
 
 ### 3. Build and Run with Docker Compose

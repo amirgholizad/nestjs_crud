@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootroot
+      MYSQL_DATABASE: final_commerce
+    ports:
+      - '3307:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  nestjs_crud:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    container_name: nestjs-crud-container
+    restart: always
+    ports:
+      - '3007:3007'
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./src:/usr/src/app/src
+
+volumes:
+  mysql_data:

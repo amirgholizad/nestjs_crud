@@ -1,9 +1,25 @@
 import { ProductsService } from './products.service';
-import { Controller, Get, Put, Body, Post, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Put,
+  Body,
+  Post,
+  Delete,
+  UploadedFile,
+} from '@nestjs/common';
 import { Param, ParseIntPipe } from '@nestjs/common';
 import { CreateProductDTO } from '../dto';
-import { ApiBody, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+  ApiConsumes,
+} from '@nestjs/swagger';
 import { NotFoundException, BadRequestException } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { UseInterceptors } from '@nestjs/common';
 
 @ApiTags('Products')
 @Controller('products')
@@ -44,11 +60,27 @@ export class ProductsController {
   }
 
   @Post()
+  @UseInterceptors(FileInterceptor('image'))
+  @ApiConsumes('multipart/form-data')
   @ApiBody({ type: CreateProductDTO })
   @ApiResponse({ status: 200, description: 'Product added' })
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({ status: 500, description: 'Internal server error' })
-  async addNewProduct(@Body() data: CreateProductDTO) {
+  async addNewProduct(
+    @Body() data: CreateProductDTO,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    if (!file) {
+      throw new BadRequestException('Image is required');
+    }
+    const MAX_SIZE = 1 * 1024 * 1024; // 1MB
+    if (file.size > MAX_SIZE) {
+      throw new BadRequestException('File size exceeds 1MB limit');
+    }
+    const base64String = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
+
+    data.image = base64String;
+
     const res = await this.productsService.addProduct(data);
     if (typeof res === 'number' || (res.length > 0 && res[0] > 0)) {
       return { message: 'Product added' };
@@ -59,6 +91,8 @@ export class ProductsController {
 
   @Put(':id')
   @ApiBody({ type: CreateProductDTO })
+  @UseInterceptors(FileInterceptor('image'))
+  @ApiConsumes('multipart/form-data')
   @ApiResponse({ status: 200, description: 'Product updated' })
   @ApiResponse({ status: 404, description: 'Product not found' })
   @ApiResponse({ status: 400, description: 'Bad request' })
@@ -67,7 +101,17 @@ export class ProductsController {
   async updateProduct(
     @Param('id', ParseIntPipe) id: number,
     @Body() data: CreateProductDTO,
+    @UploadedFile() file?: Express.Multer.File,
   ) {
+    if (file) {
+      const MAX_SIZE = 1 * 1024 * 1024; // 1MB
+      if (file.size > MAX_SIZE) {
+        throw new BadRequestException('File size exceeds 1MB limit');
+      }
+      const base64String = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
+      data.image = base64String;
+    }
+
     const res = await this.productsService.updateProduct(id, data);
     if (res) {
       return { message: 'Product updated' };

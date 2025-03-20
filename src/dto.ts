@@ -1,4 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional } from 'class-validator';
+import { PartialType } from '@nestjs/mapped-types';
+import { IsString } from 'class-validator';
 
 export class Product {
   @ApiProperty({ example: 1 })
@@ -21,6 +24,9 @@ export class Product {
 
   @ApiProperty({ example: '2024-03-19T12:00:00Z' })
   updatedAt: string;
+
+  @ApiProperty({ example: 'image.jpg' })
+  image: string;
 }
 
 export class Cart {
@@ -52,6 +58,14 @@ export class CreateProductDTO {
 
   @ApiProperty({ example: 'High-end gaming laptop' })
   description: string;
+
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    description: 'Product image',
+  })
+  @IsOptional()
+  image?: string;
 }
 
 export class AddToCartDTO {
@@ -60,4 +74,16 @@ export class AddToCartDTO {
 
   @ApiProperty({ example: 3 })
   quantity: number;
+}
+
+export class UpdateProductDTO extends PartialType(CreateProductDTO) {
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    required: false,
+    description: 'Product image',
+  })
+  @IsOptional()
+  @IsString()
+  image?: string;
 }

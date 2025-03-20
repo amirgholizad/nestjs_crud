@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateProductDTO, Product } from '../dto';
+import { CreateProductDTO, Product, UpdateProductDTO } from '../dto';
 import { Knex } from 'knex';
 import { InjectConnection } from 'nest-knexjs';
 
@@ -37,10 +37,7 @@ export class ProductsService {
     return this.knex('products').where({ id }).delete();
   }
 
-  async updateProduct(
-    id: number,
-    data: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>,
-  ) {
+  async updateProduct(id: number, data: UpdateProductDTO) {
     return this.knex('products').where({ id }).update(data);
   }
 }
